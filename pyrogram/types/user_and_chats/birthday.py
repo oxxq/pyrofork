@@ -34,13 +34,7 @@ class Birthday(Object):
             Year of birth.
     """
 
-    def __init__(
-        self,
-        *,
-        day: int,
-        month: int,
-        year: int
-    ):
+    def __init__(self, *, day: int, month: int, year: int):
         self.day = day
         self.month = month
         self.year = year
@@ -49,15 +43,7 @@ class Birthday(Object):
     def _parse(birthday: "raw.types.Birthday" = None) -> "Birthday":
         if not birthday:
             return
-        return Birthday(
-            day=birthday.day,
-            month=birthday.month,
-            year=birthday.year
-        )
+        return Birthday(day=birthday.day, month=birthday.month, year=birthday.year)
 
     async def write(self) -> "raw.types.Birthday":
-        return raw.types.Birthday(
-            day=self.day,
-            month=self.month,
-            year=self.year
-        )
+        return raw.types.Birthday(day=self.day, month=self.month, year=self.year)

@@ -50,7 +50,7 @@ class SearchGlobal:
             query (``str``, *optional*):
                 Text query string.
                 Use "@" to search for mentions.
-            
+
             filter (:obj:`~pyrogram.enums.MessagesFilter`, *optional*):
                 Pass a filter in order to search for specific kind of messages only.
                 Defaults to any message (no filter).
@@ -108,11 +108,11 @@ class SearchGlobal:
                         broadcasts_only=channels_only,
                         groups_only=groups_only,
                         users_only=users_only,
-                        limit=limit
+                        limit=limit,
                     ),
-                    sleep_threshold=60
+                    sleep_threshold=60,
                 ),
-                replies=0
+                replies=0,
             )
 
             if not messages:

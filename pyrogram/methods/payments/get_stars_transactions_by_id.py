@@ -26,10 +26,9 @@ class GetStarsTransactionsById:
     async def get_stars_transactions_by_id(
         self: "pyrogram.Client",
         transaction_ids: Union[
-            "types.InputStarsTransaction",
-            List["types.InputStarsTransaction"]
+            "types.InputStarsTransaction", List["types.InputStarsTransaction"]
         ],
-        chat_id: Union[int, str] = "me"
+        chat_id: Union[int, str] = "me",
     ) -> "types.StarsStatus":
         """Get stars transactions by transaction id.
 
@@ -76,12 +75,13 @@ class GetStarsTransactionsById:
         """
         peer = await self.resolve_peer(chat_id)
         is_iterable = not isinstance(transaction_ids, types.InputStarsTransaction)
-        ids = [await transaction_ids.write()] if not is_iterable else [await x.write() for x in transaction_ids]
+        ids = (
+            [await transaction_ids.write()]
+            if not is_iterable
+            else [await x.write() for x in transaction_ids]
+        )
 
         r = await self.invoke(
-            raw.functions.payments.GetStarsTransactionsByID(
-                peer=peer,
-                id=ids
-            )
+            raw.functions.payments.GetStarsTransactionsByID(peer=peer, id=ids)
         )
         return types.StarsStatus._parse(self, r)

@@ -40,6 +40,7 @@ from .show_gift import ShowGift
 from .transfer_gift import TransferGift
 from .upgrade_gift import UpgradeGift
 
+
 class Payments(
     ApplyGiftCode,
     CheckGiftCode,
@@ -62,6 +63,6 @@ class Payments(
     SendGift,
     ShowGift,
     TransferGift,
-    UpgradeGift
+    UpgradeGift,
 ):
     pass

@@ -65,6 +65,6 @@ class Decorators(
     OnStory,
     OnMessageReactionUpdated,
     OnMessageReactionCountUpdated,
-    OnPurchasedPaidMedia
+    OnPurchasedPaidMedia,
 ):
     pass

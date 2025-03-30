@@ -46,7 +46,7 @@ class CreateInvoiceLink:
         need_shipping_address: bool = None,
         send_phone_number_to_provider: bool = None,
         send_email_to_provider: bool = None,
-        is_flexible: bool = None
+        is_flexible: bool = None,
     ) -> str:
         """Use this method to create a link for an invoice.
 
@@ -123,20 +123,25 @@ class CreateInvoiceLink:
             invoice_media=raw.types.InputMediaInvoice(
                 title=title,
                 description=description,
-                photo=raw.types.InputWebDocument(
-                    url=photo_url,
-                    mime_type="image/jpg",
-                    size=photo_size,
-                    attributes=[
-                        raw.types.DocumentAttributeImageSize(
-                            w=photo_width,
-                            h=photo_height
-                        )
-                    ]
-                ) if photo_url else None,
+                photo=(
+                    raw.types.InputWebDocument(
+                        url=photo_url,
+                        mime_type="image/jpg",
+                        size=photo_size,
+                        attributes=[
+                            raw.types.DocumentAttributeImageSize(
+                                w=photo_width, h=photo_height
+                            )
+                        ],
+                    )
+                    if photo_url
+                    else None
+                ),
                 invoice=raw.types.Invoice(
                     currency=currency,
-                    prices=[i.write() for i in prices] if is_iterable else [prices.write()],
+                    prices=(
+                        [i.write() for i in prices] if is_iterable else [prices.write()]
+                    ),
                     test=self.test_mode,
                     name_requested=need_name,
                     phone_requested=need_phone_number,
@@ -144,14 +149,14 @@ class CreateInvoiceLink:
                     shipping_address_requested=need_shipping_address,
                     flexible=is_flexible,
                     phone_to_provider=send_phone_number_to_provider,
-                    email_to_provider=send_email_to_provider
+                    email_to_provider=send_email_to_provider,
                 ),
                 payload=payload.encode() if isinstance(payload, str) else payload,
                 provider=provider_token,
                 provider_data=raw.types.DataJSON(
                     data=provider_data if provider_data else "{}"
                 ),
-                start_param=start_parameter
+                start_param=start_parameter,
             )
         )
         r = await self.invoke(rpc)

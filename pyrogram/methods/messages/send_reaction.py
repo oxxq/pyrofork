@@ -31,17 +31,17 @@ class SendReaction:
         story_id: int = None,
         emoji: Union[int, str, List[Union[int, str]]] = None,
         big: bool = False,
-        add_to_recent: bool = False
+        add_to_recent: bool = False,
     ) -> "types.MessageReactions":
         """Use this method to send reactions on a message/stories.
         Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel.
         Bots can't use paid reactions.
-        
+
         You must use exactly one of ``message_id`` OR ``story_id``.
-        
+
             If you specify, ``message_id``
                 .. include:: /_includes/usable-by/users-bots.rst
-                
+
             If you specify, ``story_id``
                 .. include:: /_includes/usable-by/users.rst
 
@@ -65,7 +65,7 @@ class SendReaction:
                 Pass True to set the reaction with a big animation.
                 For message reactions only.
                 Defaults to False.
-                
+
             add_to_recent (``bool``, *optional*):
                 Pass True if the reaction should appear in the recently used reactions.
                 This option is applicable only for users.
@@ -88,12 +88,18 @@ class SendReaction:
                 await app.send_reaction(chat_id, story_id=story_id)
         """
         if isinstance(emoji, list):
-            reaction = [
-                    raw.types.ReactionCustomEmoji(document_id=i)
-                    if isinstance(i, int)
-                    else raw.types.ReactionEmoji(emoticon=i)
+            reaction = (
+                [
+                    (
+                        raw.types.ReactionCustomEmoji(document_id=i)
+                        if isinstance(i, int)
+                        else raw.types.ReactionEmoji(emoticon=i)
+                    )
                     for i in emoji
-            ] if emoji else None
+                ]
+                if emoji
+                else None
+            )
         else:
             if isinstance(emoji, int):
                 reaction = [raw.types.ReactionCustomEmoji(document_id=emoji)]
@@ -106,21 +112,23 @@ class SendReaction:
                     msg_id=message_id,
                     reaction=reaction,
                     big=big,
-                    add_to_recent=add_to_recent
+                    add_to_recent=add_to_recent,
                 )
             )
             users = {i.id: i for i in r.users}
             chats = {i.id: i for i in r.chats}
             for i in r.updates:
-              if isinstance(i, raw.types.UpdateMessageReactions):
-                  return types.MessageReactions._parse(self, i.reactions, users, chats)
+                if isinstance(i, raw.types.UpdateMessageReactions):
+                    return types.MessageReactions._parse(
+                        self, i.reactions, users, chats
+                    )
         elif story_id is not None:
             await self.invoke(
                 raw.functions.stories.SendReaction(
                     peer=await self.resolve_peer(chat_id),
                     story_id=story_id,
                     reaction=raw.types.ReactionEmoji(emoticon=emoji) if emoji else None,
-                    add_to_recent=add_to_recent
+                    add_to_recent=add_to_recent,
                 )
             )
             return True

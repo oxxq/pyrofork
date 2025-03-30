@@ -61,7 +61,7 @@ class PreCheckoutQuery(Object, Update):
         total_amount: int,
         payload: str,
         shipping_option_id: str = None,
-        payment_info: "types.PaymentInfo" = None
+        payment_info: "types.PaymentInfo" = None,
     ):
         super().__init__(client)
 
@@ -77,7 +77,7 @@ class PreCheckoutQuery(Object, Update):
     async def _parse(
         client: "pyrogram.Client",
         pre_checkout_query: "raw.types.UpdateBotPrecheckoutQuery",
-        users: Dict[int, "raw.types.User"] = None
+        users: Dict[int, "raw.types.User"] = None,
     ) -> "PreCheckoutQuery":
         # Try to decode pre-checkout query payload into string. If that fails, fallback to bytes instead of decoding by
         # ignoring/replacing errors, this way, button clicks will still work.
@@ -93,13 +93,19 @@ class PreCheckoutQuery(Object, Update):
             total_amount=pre_checkout_query.total_amount,
             payload=payload,
             shipping_option_id=pre_checkout_query.shipping_option_id,
-            payment_info=types.PaymentInfo(
-                name=pre_checkout_query.info.name,
-                phone_number=pre_checkout_query.info.phone,
-                email=pre_checkout_query.info.email,
-                shipping_address=types.ShippingAddress._parse(pre_checkout_query.info.shipping_address)
-            ) if pre_checkout_query.info else None,
-            client=client
+            payment_info=(
+                types.PaymentInfo(
+                    name=pre_checkout_query.info.name,
+                    phone_number=pre_checkout_query.info.phone,
+                    email=pre_checkout_query.info.email,
+                    shipping_address=types.ShippingAddress._parse(
+                        pre_checkout_query.info.shipping_address
+                    ),
+                )
+                if pre_checkout_query.info
+                else None
+            ),
+            client=client,
         )
 
     async def answer(self, success: bool = None, error: str = None):
@@ -129,7 +135,5 @@ class PreCheckoutQuery(Object, Update):
                 Defaults to False.
         """
         return await self._client.answer_pre_checkout_query(
-            pre_checkout_query_id=self.id,
-            success=success,
-            error=error
+            pre_checkout_query_id=self.id, success=success, error=error
         )

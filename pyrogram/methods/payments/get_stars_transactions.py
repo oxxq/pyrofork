@@ -30,7 +30,7 @@ class GetStarsTransactions:
         offset: str = "",
         is_inbound: bool = None,
         is_outbound: bool = None,
-        is_ascending: bool = None
+        is_ascending: bool = None,
     ) -> "types.StarsStatus":
         """Get stars transactions.
 
@@ -85,7 +85,7 @@ class GetStarsTransactions:
                 offset=offset,
                 inbound=is_inbound,
                 outbound=is_outbound,
-                ascending=is_ascending
+                ascending=is_ascending,
             )
         )
         return types.StarsStatus._parse(self, r)

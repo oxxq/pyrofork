@@ -21,6 +21,7 @@ from pyrogram import raw, types, utils
 from typing import Dict
 from ..object import Object
 
+
 class StarsTransaction(Object):
     """Contains information about stars transaction.
 
@@ -63,7 +64,8 @@ class StarsTransaction(Object):
 
         message_id (``int``, *optional*):
             Identifier of the message where the transaction was made.
-    """ # TODO photo, extended_media
+    """  # TODO photo, extended_media
+
     def __init__(
         self,
         *,
@@ -79,7 +81,7 @@ class StarsTransaction(Object):
         transaction_date: datetime = None,
         transaction_url: str = None,
         payload: str = None,
-        message_id: int = None
+        message_id: int = None,
     ):
         super().__init__()
 
@@ -96,12 +98,12 @@ class StarsTransaction(Object):
         self.transaction_url = transaction_url
         self.payload = payload
         self.message_id = message_id
-    
+
     @staticmethod
     def _parse(
         client,
         transaction: "raw.types.StarsTransaction",
-        users: Dict[int, "raw.types.User"]
+        users: Dict[int, "raw.types.User"],
     ) -> "StarsTransaction":
         chat_id = utils.get_raw_peer_id(transaction.peer.peer)
         chat = types.User._parse(client, users.get(chat_id, None))
@@ -122,5 +124,5 @@ class StarsTransaction(Object):
             transaction_date=utils.timestamp_to_datetime(transaction.transaction_date),
             transaction_url=transaction.transaction_url,
             payload=payload,
-            message_id=transaction.msg_id
-    )
+            message_id=transaction.msg_id,
+        )

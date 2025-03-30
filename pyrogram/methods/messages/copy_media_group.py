@@ -64,7 +64,7 @@ class CopyMediaGroup:
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
                 You can also use chat public link in form of *t.me/<username>* (str).
-                
+
             message_id (``int``):
                 Message identifier in the chat specified in *from_chat_id*.
 
@@ -76,7 +76,7 @@ class CopyMediaGroup:
                 If a ``string`` is passed, it becomes a caption only for the first media.
                 If a list of ``string`` passed, each element becomes caption for each media element.
                 You can pass ``None`` in list to keep the original caption (see examples below).
-                
+
             has_spoilers (``bool``, *optional*):
                 Pass True if the photo needs to be covered with a spoiler animation.
 
@@ -143,7 +143,11 @@ class CopyMediaGroup:
                 await app.copy_media_group(to_chat, from_chat, 123,
                     captions=["caption 1", None, ""])
         """
-        quote_text, quote_entities = (await utils.parse_text_entities(self, quote_text, parse_mode, quote_entities)).values()
+        quote_text, quote_entities = (
+            await utils.parse_text_entities(
+                self, quote_text, parse_mode, quote_entities
+            )
+        ).values()
 
         media_group = await self.get_media_group(from_chat_id, message_id)
         multi_media = []
@@ -164,8 +168,7 @@ class CopyMediaGroup:
                 file_id=file_id,
                 has_spoiler=(
                     has_spoilers[i]
-                    if isinstance(has_spoilers, list)
-                    and i < len(has_spoilers)
+                    if isinstance(has_spoilers, list) and i < len(has_spoilers)
                     else (
                         has_spoilers
                         if isinstance(has_spoilers, bool)
@@ -178,14 +181,24 @@ class CopyMediaGroup:
                     media=media,
                     random_id=self.rnd_id(),
                     **await self.parser.parse(
-                        captions[i] if isinstance(captions, list) and i < len(captions) and captions[i] else
-                        captions if isinstance(captions, str) and i == 0 else
-                        message.caption if (
-                            message.caption
-                            and message.caption != "None"
-                            and not isinstance(captions, str)
-                            ) else ""
+                        captions[i]
+                        if isinstance(captions, list)
+                        and i < len(captions)
+                        and captions[i]
+                        else (
+                            captions
+                            if isinstance(captions, str) and i == 0
+                            else (
+                                message.caption
+                                if (
+                                    message.caption
+                                    and message.caption != "None"
+                                    and not isinstance(captions, str)
+                                )
+                                else ""
+                            )
                         )
+                    ),
                 )
             )
 
@@ -213,19 +226,27 @@ class CopyMediaGroup:
                 allow_paid_floodskip=allow_paid_broadcast,
                 effect=message_effect_id,
             ),
-            sleep_threshold=60
+            sleep_threshold=60,
         )
 
         return await utils.parse_messages(
             self,
             raw.types.messages.Messages(
-                messages=[m.message for m in filter(
-                    lambda u: isinstance(u, (raw.types.UpdateNewMessage,
-                                             raw.types.UpdateNewChannelMessage,
-                                             raw.types.UpdateNewScheduledMessage)),
-                    r.updates
-                )],
+                messages=[
+                    m.message
+                    for m in filter(
+                        lambda u: isinstance(
+                            u,
+                            (
+                                raw.types.UpdateNewMessage,
+                                raw.types.UpdateNewChannelMessage,
+                                raw.types.UpdateNewScheduledMessage,
+                            ),
+                        ),
+                        r.updates,
+                    )
+                ],
                 users=r.users,
-                chats=r.chats
-            )
+                chats=r.chats,
+            ),
         )

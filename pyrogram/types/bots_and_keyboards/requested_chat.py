@@ -20,6 +20,7 @@ from ..object import Object
 from pyrogram import enums, raw, types, utils
 from typing import Union
 
+
 class RequestedChat(Object):
     """Contains information about a requested chat.
 
@@ -39,6 +40,7 @@ class RequestedChat(Object):
         photo (``types.ChatPhoto``, *optional*):
             Chat photo.
     """
+
     def __init__(
         self,
         chat_id: int,
@@ -62,16 +64,18 @@ class RequestedChat(Object):
             "raw.types.RequestedPeerChat",
             "raw.types.RequestedPeerChannel",
             "raw.types.PeerChat",
-            "raw.types.PeerChannel"
-        ]
+            "raw.types.PeerChannel",
+        ],
     ) -> "RequestedChat":
-        if isinstance(request, raw.types.RequestedPeerChannel) or isinstance(request, raw.types.PeerChannel):
+        if isinstance(request, raw.types.RequestedPeerChannel) or isinstance(
+            request, raw.types.PeerChannel
+        ):
             type = enums.ChatType.CHANNEL
         else:
             type = enums.ChatType.GROUP
         photo = None
-        if getattr(request,"photo", None):
-            photo = types.Photo._parse(client, getattr(request,"photo", None), 0)
+        if getattr(request, "photo", None):
+            photo = types.Photo._parse(client, getattr(request, "photo", None), 0)
 
         return RequestedChat(
             chat_id=utils.get_channel_id(utils.get_raw_peer_id(request)),

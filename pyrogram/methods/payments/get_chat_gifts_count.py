@@ -33,7 +33,7 @@ class GetChatGiftsCount:
         exclude_saved: Optional[bool] = None,
         exclude_unlimited: Optional[bool] = None,
         exclude_limited: Optional[bool] = None,
-        exclude_upgraded: Optional[bool] = None
+        exclude_upgraded: Optional[bool] = None,
     ) -> int:
         """Get the total count of owned gifts of specified chat.
 
@@ -44,19 +44,19 @@ class GetChatGiftsCount:
                 Unique identifier (int) or username (str) of the target chat.
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
-                
+
             exclude_unsaved (``bool``, *optional*):
                 Exclude unsaved star gifts.
-                
+
             exclude_saved (``bool``, *optional*):
                 Exclude saved star gifts.
-                
+
             exclude_unlimited (``bool``, *optional*):
                 Exclude unlimited star gifts.
-                
+
             exclude_limited (``bool``, *optional*):
                 Exclude limited star gifts.
-                
+
             exclude_upgraded (``bool``, *optional*):
                 Exclude upgraded star gifts.
 
@@ -79,7 +79,7 @@ class GetChatGiftsCount:
                 exclude_unlimited=exclude_unlimited,
                 exclude_limited=exclude_limited,
                 exclude_unique=exclude_upgraded,
-                limit=1
+                limit=1,
             )
         )
 

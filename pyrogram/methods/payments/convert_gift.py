@@ -22,10 +22,7 @@ from pyrogram import raw
 
 
 class ConvertGift:
-    async def convert_gift(
-        self: "pyrogram.Client",
-        message_id: int
-    ) -> bool:
+    async def convert_gift(self: "pyrogram.Client", message_id: int) -> bool:
         """Convert star gift to stars.
 
         .. include:: /_includes/usable-by/users.rst

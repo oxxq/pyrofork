@@ -34,7 +34,7 @@ class GetForumTopics:
         limit: int = 0,
         offset_date: int = 0,
         offset_id: int = 0,
-        offset_topic: int = 0
+        offset_topic: int = 0,
     ) -> Optional[AsyncGenerator["types.ForumTopic", None]]:
         """Get one or more topic from a chat.
 
@@ -73,7 +73,13 @@ class GetForumTopics:
 
         peer = await self.resolve_peer(chat_id)
 
-        rpc = raw.functions.channels.GetForumTopics(channel=peer, offset_date=offset_date, offset_id=offset_id, offset_topic=offset_topic, limit=limit)
+        rpc = raw.functions.channels.GetForumTopics(
+            channel=peer,
+            offset_date=offset_date,
+            offset_id=offset_id,
+            offset_topic=offset_topic,
+            limit=limit,
+        )
 
         r = await self.invoke(rpc, sleep_threshold=-1)
 

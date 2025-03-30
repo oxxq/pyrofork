@@ -28,7 +28,7 @@ class GiftAttributeType(AutoName):
 
     SYMBOL = raw.types.StarGiftAttributePattern
     "Symbol attribute"
-    
+
     BACKDROP = raw.types.StarGiftAttributeBackdrop
     "Backdrop attribute"
 

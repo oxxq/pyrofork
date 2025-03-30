@@ -26,11 +26,12 @@ from pyrogram import utils
 
 log = logging.getLogger(__name__)
 
+
 class GetScheduledMessages:
     async def get_scheduled_messages(
         self: "pyrogram.Client",
         chat_id: Union[int, str],
-        message_ids: Union[int, Iterable[int]]
+        message_ids: Union[int, Iterable[int]],
     ) -> Union["types.Message", List["types.Message"]]:
         """Get one or more scheduled messages from a chat by using message identifiers.
 

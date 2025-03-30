@@ -79,10 +79,10 @@ class ForwardMessages:
 
             drop_author (``bool``, *optional*):
                 Pass True to forwards messages without quoting the original author.
-                
+
             remove_caption (``bool``, *optional*):
                 Pass True to remove media captions of message copies.
-                
+
             new_video_start_timestamp (``int``, *optional*):
                 The new video start timestamp. Pass time to replace video start timestamp in the forwarded message.
 
@@ -116,7 +116,7 @@ class ForwardMessages:
                 allow_paid_floodskip=allow_paid_broadcast,
                 drop_author=drop_author,
                 drop_media_captions=remove_caption,
-                video_timestamp=new_video_start_timestamp
+                video_timestamp=new_video_start_timestamp,
             )
         )
 
@@ -126,14 +126,16 @@ class ForwardMessages:
         chats = {i.id: i for i in r.chats}
 
         for i in r.updates:
-            if isinstance(i, (raw.types.UpdateNewMessage,
-                              raw.types.UpdateNewChannelMessage,
-                              raw.types.UpdateNewScheduledMessage)):
+            if isinstance(
+                i,
+                (
+                    raw.types.UpdateNewMessage,
+                    raw.types.UpdateNewChannelMessage,
+                    raw.types.UpdateNewScheduledMessage,
+                ),
+            ):
                 forwarded_messages.append(
-                    await types.Message._parse(
-                        self, i.message,
-                        users, chats
-                    )
+                    await types.Message._parse(self, i.message, users, chats)
                 )
 
         return types.List(forwarded_messages) if is_iterable else forwarded_messages[0]

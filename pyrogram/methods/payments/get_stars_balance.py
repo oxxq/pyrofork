@@ -53,10 +53,6 @@ class GetStarsBalance:
         else:
             peer = await self.resolve_peer(chat_id)
 
-        r = await self.invoke(
-            raw.functions.payments.GetStarsStatus(
-                peer=peer
-            )
-        )
+        r = await self.invoke(raw.functions.payments.GetStarsStatus(peer=peer))
 
         return r.balance.amount

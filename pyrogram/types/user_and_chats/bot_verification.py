@@ -36,22 +36,14 @@ class BotVerification(Object):
             Additional description about the verification.
     """
 
-    def __init__(
-        self,
-        *,
-        bot: int,
-        custom_emoji_id: int,
-        description: str
-    ):
+    def __init__(self, *, bot: int, custom_emoji_id: int, description: str):
         self.bot = bot
         self.custom_emoji_id = custom_emoji_id
         self.description = description
 
     @staticmethod
     def _parse(
-        client,
-        verification: "raw.types.BotVerification",
-        users
+        client, verification: "raw.types.BotVerification", users
     ) -> Optional["BotVerification"]:
         if not verification:
             return None
@@ -59,5 +51,5 @@ class BotVerification(Object):
         return BotVerification(
             bot=types.User._parse(client, users.get(verification.bot_id)),
             custom_emoji_id=verification.icon,
-            description=verification.description
+            description=verification.description,
         )

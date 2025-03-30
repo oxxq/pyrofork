@@ -58,7 +58,7 @@ class CheckedGiftCode(Object):
         from_chat: "types.Chat" = None,
         winner: "types.User" = None,
         giveaway_message_id: int = None,
-        used_date: datetime = None
+        used_date: datetime = None,
     ):
         super().__init__()
 
@@ -71,7 +71,9 @@ class CheckedGiftCode(Object):
         self.used_date = used_date
 
     @staticmethod
-    def _parse(client, checked_gift_code: "raw.types.payments.CheckedGiftCode", users, chats):
+    def _parse(
+        client, checked_gift_code: "raw.types.payments.CheckedGiftCode", users, chats
+    ):
         from_chat = None
         winner = None
 
@@ -89,5 +91,9 @@ class CheckedGiftCode(Object):
             from_chat=from_chat,
             winner=winner,
             giveaway_message_id=getattr(checked_gift_code, "giveaway_msg_id", None),
-            used_date=utils.timestamp_to_datetime(checked_gift_code.used_date) if getattr(checked_gift_code, "used_date") else None,
+            used_date=(
+                utils.timestamp_to_datetime(checked_gift_code.used_date)
+                if getattr(checked_gift_code, "used_date")
+                else None
+            ),
         )

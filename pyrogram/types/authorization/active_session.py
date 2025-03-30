@@ -103,7 +103,7 @@ class ActiveSession(Object):
         is_unconfirmed: bool = None,
         can_accept_secret_chats: bool = None,
         can_accept_calls: bool = None,
-        is_official_application: bool = None
+        is_official_application: bool = None,
     ):
         super().__init__()
 
@@ -127,7 +127,7 @@ class ActiveSession(Object):
         self.is_official_application = is_official_application
 
     @staticmethod
-    def _parse(session: "raw.types.Authorization") -> "ActiveSession":        
+    def _parse(session: "raw.types.Authorization") -> "ActiveSession":
         return ActiveSession(
             id=session.hash,
             device_model=session.device_model,
@@ -144,7 +144,9 @@ class ActiveSession(Object):
             is_current=getattr(session, "current", None),
             is_password_pending=getattr(session, "password_pending", None),
             is_unconfirmed=getattr(session, "unconfirmed", None),
-            can_accept_secret_chats=not getattr(session, "encrypted_requests_disabled", False),
+            can_accept_secret_chats=not getattr(
+                session, "encrypted_requests_disabled", False
+            ),
             can_accept_calls=not getattr(session, "call_requests_disabled", False),
-            is_official_application=getattr(session, "official_app", None)
+            is_official_application=getattr(session, "official_app", None),
         )

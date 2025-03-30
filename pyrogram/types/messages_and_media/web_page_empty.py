@@ -33,12 +33,7 @@ class WebPageEmpty(Object):
             Full URL for this webpage.
     """
 
-    def __init__(
-        self,
-        *,
-        id: str,
-        url: str
-    ):
+    def __init__(self, *, id: str, url: str):
         super().__init__()
 
         self.id = id
@@ -47,7 +42,4 @@ class WebPageEmpty(Object):
     @staticmethod
     def _parse(webpage: "raw.types.WebPageEmpty") -> "WebPageEmpty":
 
-        return WebPageEmpty(
-            id=str(webpage.id),
-            url=webpage.url
-        )
+        return WebPageEmpty(id=str(webpage.id), url=webpage.url)

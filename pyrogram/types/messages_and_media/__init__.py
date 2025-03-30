@@ -142,5 +142,5 @@ __all__ = [
     "WallpaperSettings",
     "TranscribedAudio",
     "TranslatedText",
-    "TextQuote"
+    "TextQuote",
 ]

@@ -31,7 +31,7 @@ class GetForumTopicsByID:
     async def get_forum_topics_by_id(
         self: "pyrogram.Client",
         chat_id: Union[int, str],
-        topic_ids: Union[int, Iterable[int]]
+        topic_ids: Union[int, Iterable[int]],
     ) -> Union["types.ForumTopic", List["types.ForumTopic"]]:
         """Get one or more topic from a chat by using topic identifiers.
 
@@ -62,10 +62,7 @@ class GetForumTopicsByID:
         Raises:
             ValueError: In case of invalid arguments.
         """
-        ids, _ = (
-            (topic_ids, int) if topic_ids
-            else (None, None)
-        )
+        ids, _ = (topic_ids, int) if topic_ids else (None, None)
 
         if ids is None:
             raise ValueError("No argument supplied. Either pass topic_ids")

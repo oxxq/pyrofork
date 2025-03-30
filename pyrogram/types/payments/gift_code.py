@@ -65,7 +65,7 @@ class GiftCode(Object):
         currency: str = None,
         amount: int = None,
         crypto_currency: str = None,
-        crypto_amount: int = None
+        crypto_amount: int = None,
     ):
         super().__init__()
         self.months = months
@@ -82,7 +82,7 @@ class GiftCode(Object):
     def _parse(
         client: "pyrogram.Client",
         gift_code: "types.GiftCode",
-        chats: Dict[int, "raw.types.Chat"]
+        chats: Dict[int, "raw.types.Chat"],
     ) -> "GiftCode":
         boosted_chat = None
         boosted_chat_raw = chats.get(utils.get_raw_peer_id(gift_code.boost_peer), None)
@@ -98,5 +98,5 @@ class GiftCode(Object):
             currency=gift_code.currency,
             amount=gift_code.amount,
             crypto_currency=gift_code.crypto_currency,
-            crypto_amount=gift_code.crypto_amount
+            crypto_amount=gift_code.crypto_amount,
         )

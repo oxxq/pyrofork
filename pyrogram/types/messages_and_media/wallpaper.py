@@ -21,6 +21,7 @@ import pyrogram
 from ..object import Object
 from pyrogram import raw, types
 
+
 class Wallpaper(Object):
     """A wallpaper.
 
@@ -59,7 +60,7 @@ class Wallpaper(Object):
         is_default: bool = None,
         is_pattern: bool = None,
         is_dark: bool = None,
-        settings: "types.WallpaperSettings" = None
+        settings: "types.WallpaperSettings" = None,
     ):
         super().__init__()
         self.id = id
@@ -72,14 +73,14 @@ class Wallpaper(Object):
         self.settings = settings
 
     @staticmethod
-    def _parse(client: "pyrogram.Client", wallpaper: "raw.base.WallPaper") -> "Wallpaper":
+    def _parse(
+        client: "pyrogram.Client", wallpaper: "raw.base.WallPaper"
+    ) -> "Wallpaper":
         doc = wallpaper.document
         attributes = {type(i): i for i in doc.attributes}
 
         file_name = getattr(
-            attributes.get(
-                raw.types.DocumentAttributeFilename, None
-            ), "file_name", None
+            attributes.get(raw.types.DocumentAttributeFilename, None), "file_name", None
         )
         return Wallpaper(
             id=wallpaper.id,
@@ -89,5 +90,5 @@ class Wallpaper(Object):
             is_default=getattr(wallpaper, "default", None),
             is_pattern=getattr(wallpaper, "pattern", None),
             is_dark=getattr(wallpaper, "dark", None),
-            settings=types.WallpaperSettings._parse(wallpaper.settings)
+            settings=types.WallpaperSettings._parse(wallpaper.settings),
         )

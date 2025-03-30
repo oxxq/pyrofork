@@ -97,7 +97,7 @@ class GiftAttribute(Object):
         center_color: Optional[int] = None,
         edge_color: Optional[int] = None,
         pattern_color: Optional[int] = None,
-        text_color: Optional[int] = None
+        text_color: Optional[int] = None,
     ):
         super().__init__(client)
 
@@ -117,9 +117,7 @@ class GiftAttribute(Object):
 
     @staticmethod
     async def _parse(
-        client,
-        attr: "raw.base.StarGiftAttribute",
-        users: Dict[int, "raw.types.User"]
+        client, attr: "raw.base.StarGiftAttribute", users: Dict[int, "raw.types.User"]
     ) -> "GiftAttribute":
         caption = None
         caption_entities = None
@@ -133,9 +131,9 @@ class GiftAttribute(Object):
             sticker = await types.Sticker._parse(client, doc, attributes)
 
         if isinstance(attr, raw.types.StarGiftAttributeOriginalDetails):
-            caption, caption_entities = (utils.parse_text_with_entities(
-                client, attr.message, users
-            )).values()
+            caption, caption_entities = (
+                utils.parse_text_with_entities(client, attr.message, users)
+            ).values()
 
             sender_id = utils.get_raw_peer_id(attr.sender_id)
             recipient_id = utils.get_raw_peer_id(attr.recipient_id)
@@ -156,5 +154,5 @@ class GiftAttribute(Object):
             edge_color=getattr(attr, "edge_color", None),
             pattern_color=getattr(attr, "pattern_color", None),
             text_color=getattr(attr, "text_color", None),
-            client=client
-    )
+            client=client,
+        )

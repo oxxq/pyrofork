@@ -20,6 +20,7 @@ from ..object import Object
 from pyrogram import raw, types
 from typing import Union
 
+
 class RequestedUser(Object):
     """Contains information about a requested user.
 
@@ -42,6 +43,7 @@ class RequestedUser(Object):
         full_name (``str``, *optional*):
             User's full name.
     """
+
     def __init__(
         self,
         user_id: int,
@@ -60,23 +62,19 @@ class RequestedUser(Object):
 
     @staticmethod
     async def _parse(
-        client,
-        request: Union[
-            "raw.types.RequestedPeerUser",
-            "raw.types.PeerUser"
-        ]
+        client, request: Union["raw.types.RequestedPeerUser", "raw.types.PeerUser"]
     ) -> "RequestedUser":
 
         photo = None
-        if getattr(request,"photo", None):
-            photo = types.Photo._parse(client, getattr(request,"photo", None), 0)
+        if getattr(request, "photo", None):
+            photo = types.Photo._parse(client, getattr(request, "photo", None), 0)
 
         return RequestedUser(
-            user_id=getattr(request,"user_id", None),
-            first_name=getattr(request,"first_name", None),
-            last_name=getattr(request,"last_name", None),
-            username=getattr(request,"username", None),
-            photo=photo
+            user_id=getattr(request, "user_id", None),
+            first_name=getattr(request, "first_name", None),
+            last_name=getattr(request, "last_name", None),
+            username=getattr(request, "username", None),
+            photo=photo,
         )
 
     @property

@@ -101,7 +101,7 @@ class Poll(Object, Update):
         explanation_entities: Optional[List["types.MessageEntity"]] = None,
         open_period: Optional[int] = None,
         close_date: Optional[datetime] = None,
-        recent_voters: List["types.User"] = None
+        recent_voters: List["types.User"] = None,
     ):
         super().__init__(client)
 
@@ -126,7 +126,7 @@ class Poll(Object, Update):
     async def _parse(
         client,
         media_poll: Union["raw.types.MessageMediaPoll", "raw.types.UpdateMessagePoll"],
-        users: List["raw.base.User"]
+        users: List["raw.base.User"],
     ) -> "Poll":
         poll: raw.types.Poll = media_poll.poll
         poll_results: raw.types.PollResults = media_poll.results
@@ -149,7 +149,14 @@ class Poll(Object, Update):
                 if result.correct:
                     correct_option_id = i
 
-            o_entities = [types.MessageEntity._parse(client, entity, {}) for entity in answer.text.entities] if answer.text.entities else []
+            o_entities = (
+                [
+                    types.MessageEntity._parse(client, entity, {})
+                    for entity in answer.text.entities
+                ]
+                if answer.text.entities
+                else []
+            )
             option_entities = types.List(filter(lambda x: x is not None, o_entities))
 
             options.append(
@@ -157,11 +164,18 @@ class Poll(Object, Update):
                     text=answer.text.text,
                     voter_count=voter_count,
                     data=answer.option,
-                    entities=option_entities
+                    entities=option_entities,
                 )
             )
 
-        q_entities = [types.MessageEntity._parse(client, entity, {}) for entity in poll.question.entities] if poll.question.entities else []
+        q_entities = (
+            [
+                types.MessageEntity._parse(client, entity, {})
+                for entity in poll.question.entities
+            ]
+            if poll.question.entities
+            else []
+        )
         question_entities = types.List(filter(lambda x: x is not None, q_entities))
 
         recent_voters = []
@@ -186,21 +200,23 @@ class Poll(Object, Update):
             chosen_option_id=chosen_option_id,
             correct_option_id=correct_option_id,
             explanation=poll_results.solution,
-            explanation_entities=[
-                types.MessageEntity._parse(client, i, {})
-                for i in poll_results.solution_entities
-            ] if poll_results.solution_entities else None,
+            explanation_entities=(
+                [
+                    types.MessageEntity._parse(client, i, {})
+                    for i in poll_results.solution_entities
+                ]
+                if poll_results.solution_entities
+                else None
+            ),
             open_period=poll.close_period,
             close_date=utils.timestamp_to_datetime(poll.close_date),
             recent_voters=recent_voters if len(recent_voters) > 0 else None,
-            client=client
+            client=client,
         )
 
     @staticmethod
     async def _parse_update(
-        client,
-        update: "raw.types.UpdateMessagePoll",
-        users: List["raw.base.User"]
+        client, update: "raw.types.UpdateMessagePoll", users: List["raw.base.User"]
     ) -> "Poll":
         if update.poll is not None:
             return await Poll._parse(client, update, users)
@@ -218,11 +234,7 @@ class Poll(Object, Update):
                 correct_option_id = i
 
             options.append(
-                types.PollOption(
-                    text="",
-                    voter_count=result.voters,
-                    data=result.option
-                )
+                types.PollOption(text="", voter_count=result.voters, data=result.option)
             )
 
         recent_voters = []
@@ -244,5 +256,5 @@ class Poll(Object, Update):
             chosen_option_id=chosen_option_id,
             correct_option_id=correct_option_id,
             recent_voters=recent_voters if len(recent_voters) > 0 else None,
-            client=client
+            client=client,
         )

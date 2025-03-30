@@ -33,7 +33,7 @@ class GetChatGifts:
         exclude_upgraded: Optional[bool] = None,
         sort_by_value: Optional[bool] = None,
         limit: int = 0,
-        offset: str = ""
+        offset: str = "",
     ):
         """Get all gifts owned by specified chat.
 
@@ -44,22 +44,22 @@ class GetChatGifts:
                 Unique identifier (int) or username (str) of the target chat.
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
-            
+
             exclude_unsaved (``bool``, *optional*):
                 Exclude unsaved star gifts.
-                
+
             exclude_saved (``bool``, *optional*):
                 Exclude saved star gifts.
-                
+
             exclude_unlimited (``bool``, *optional*):
                 Exclude unlimited star gifts.
-                
+
             exclude_limited (``bool``, *optional*):
                 Exclude limited star gifts.
-                
+
             exclude_upgraded (``bool``, *optional*):
                 Exclude upgraded star gifts.
-                
+
             sort_by_value (``bool``, *optional*):
                 Sort star gifts by value.
 
@@ -95,9 +95,9 @@ class GetChatGifts:
                     exclude_unlimited=exclude_unlimited,
                     exclude_limited=exclude_limited,
                     exclude_unique=exclude_upgraded,
-                    sort_by_value=sort_by_value
+                    sort_by_value=sort_by_value,
                 ),
-                sleep_threshold=60
+                sleep_threshold=60,
             )
 
             users = {i.id: i for i in r.users}

@@ -19,6 +19,7 @@
 
 from .file_storage import FileStorage
 from .memory_storage import MemoryStorage
+
 MONGO_AVAIL = False
 try:
     import pymongo
@@ -29,10 +30,6 @@ else:
     from .mongo_storage import MongoStorage
 from .storage import Storage
 
-__all__ = [
-    "FileStorage",
-    "MemoryStorage",
-    "Storage"
-]
+__all__ = ["FileStorage", "MemoryStorage", "Storage"]
 if MONGO_AVAIL:
     __all__.append("MongoStorage")

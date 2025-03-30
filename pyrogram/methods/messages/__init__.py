@@ -78,6 +78,7 @@ from .vote_poll import VotePoll
 from .transcribe_audio import TranscribeAudio
 from .translate_text import TranslateText
 
+
 class Messages(
     DeleteChatHistory,
     DeleteMessages,
@@ -138,6 +139,6 @@ class Messages(
     GetCustomEmojiStickers,
     TranscribeAudio,
     TranslateText,
-    StartBot
+    StartBot,
 ):
     pass

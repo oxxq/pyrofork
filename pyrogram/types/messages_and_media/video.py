@@ -117,8 +117,8 @@ class Video(Object):
         video_attributes: "raw.types.DocumentAttributeVideo",
         file_name: str,
         ttl_seconds: int = None,
-        cover = None,
-        start_timestamp: int = None
+        cover=None,
+        start_timestamp: int = None,
     ) -> "Video":
         return Video(
             file_id=FileId(
@@ -126,11 +126,10 @@ class Video(Object):
                 dc_id=video.dc_id,
                 media_id=video.id,
                 access_hash=video.access_hash,
-                file_reference=video.file_reference
+                file_reference=video.file_reference,
             ).encode(),
             file_unique_id=FileUniqueId(
-                file_unique_type=FileUniqueType.DOCUMENT,
-                media_id=video.id
+                file_unique_type=FileUniqueType.DOCUMENT, media_id=video.id
             ).encode(),
             width=video_attributes.w,
             height=video_attributes.h,
@@ -144,5 +143,5 @@ class Video(Object):
             thumbs=types.Thumbnail._parse(client, video),
             cover=types.Photo._parse(client, cover),
             start_timestamp=start_timestamp,
-            client=client
+            client=client,
         )

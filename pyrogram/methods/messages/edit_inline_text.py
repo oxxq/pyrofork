@@ -34,7 +34,7 @@ class EditInlineText:
         parse_mode: Optional["enums.ParseMode"] = None,
         disable_web_page_preview: bool = None,
         reply_markup: "types.InlineKeyboardMarkup" = None,
-        invert_media: bool = None
+        invert_media: bool = None,
     ) -> bool:
         """Edit the text of inline messages.
 
@@ -89,7 +89,7 @@ class EditInlineText:
                 no_webpage=disable_web_page_preview or None,
                 reply_markup=await reply_markup.write(self) if reply_markup else None,
                 **await self.parser.parse(text, parse_mode),
-                invert_media=invert_media
+                invert_media=invert_media,
             ),
             sleep_threshold=self.sleep_threshold,
         )

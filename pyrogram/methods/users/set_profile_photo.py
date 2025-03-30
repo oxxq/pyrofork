@@ -30,7 +30,7 @@ class SetProfilePhoto:
         photo: Union[str, BinaryIO] = None,
         emoji: int = None,
         emoji_background: Union[int, List[int]] = None,
-        video: Union[str, BinaryIO] = None
+        video: Union[str, BinaryIO] = None,
     ) -> bool:
         """Set a new profile photo or video (H.264/MPEG-4 AVC video, max 5 seconds).
 
@@ -75,12 +75,13 @@ class SetProfilePhoto:
 
         emoji_id = None
         if emoji:
-            background_colors = emoji_background if emoji_background is not None else [0xFFFFFF]
+            background_colors = (
+                emoji_background if emoji_background is not None else [0xFFFFFF]
+            )
             if isinstance(background_colors, int):
                 background_colors = [background_colors]
             emoji_id = raw.types.VideoSizeEmojiMarkup(
-                emoji_id=emoji,
-                background_colors=background_colors
+                emoji_id=emoji, background_colors=background_colors
             )
 
         return bool(
@@ -88,7 +89,7 @@ class SetProfilePhoto:
                 raw.functions.photos.UploadProfilePhoto(
                     file=await self.save_file(photo),
                     video_emoji_markup=emoji_id,
-                    video=await self.save_file(video)
+                    video=await self.save_file(video),
                 )
             )
         )

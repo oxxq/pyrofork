@@ -80,7 +80,8 @@ class ChatInviteLink(Object):
     """
 
     def __init__(
-        self, *,
+        self,
+        *,
         invite_link: str,
         date: datetime,
         is_primary: bool = None,
@@ -95,7 +96,7 @@ class ChatInviteLink(Object):
         pending_join_request_count: int = None,
         subscription_expired: int = None,
         subscription_period: int = None,
-        subscription_price: int = None
+        subscription_price: int = None,
     ):
         super().__init__()
 
@@ -119,7 +120,7 @@ class ChatInviteLink(Object):
     def _parse(
         client: "pyrogram.Client",
         invite: "raw.base.ExportedChatInvite",
-        users: Dict[int, "raw.types.User"] = None
+        users: Dict[int, "raw.types.User"] = None,
     ) -> Optional["ChatInviteLink"]:
         if not isinstance(invite, raw.types.ChatInviteExported):
             return None
@@ -145,6 +146,14 @@ class ChatInviteLink(Object):
             member_count=invite.usage,
             pending_join_request_count=invite.requested,
             subscription_expired=invite.subscription_expired,
-            subscription_period=subscription_pricing.period if subscription_pricing is not None else None,
-            subscription_price=subscription_pricing.amount if subscription_pricing is not None else None
+            subscription_period=(
+                subscription_pricing.period
+                if subscription_pricing is not None
+                else None
+            ),
+            subscription_price=(
+                subscription_pricing.amount
+                if subscription_pricing is not None
+                else None
+            ),
         )

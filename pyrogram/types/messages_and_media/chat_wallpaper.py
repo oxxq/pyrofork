@@ -21,6 +21,7 @@ import pyrogram
 from ..object import Object
 from pyrogram import raw, types
 
+
 class ChatWallpaper(Object):
     """A service message about a chat wallpaper.
 
@@ -36,10 +37,7 @@ class ChatWallpaper(Object):
     """
 
     def __init__(
-        self,
-        wallpaper: "types.Wallpaper",
-        is_same: bool = None,
-        is_both: bool = None
+        self, wallpaper: "types.Wallpaper", is_same: bool = None, is_both: bool = None
     ):
         super().__init__()
         self.wallpaper = wallpaper
@@ -47,9 +45,11 @@ class ChatWallpaper(Object):
         self.is_both = is_both
 
     @staticmethod
-    def _parse(client: "pyrogram.Client", chat_wallpaper: "raw.types.ChatWallpaper") -> "ChatWallpaper":
+    def _parse(
+        client: "pyrogram.Client", chat_wallpaper: "raw.types.ChatWallpaper"
+    ) -> "ChatWallpaper":
         return ChatWallpaper(
             wallpaper=types.Wallpaper._parse(client, chat_wallpaper.wallpaper),
             is_same=getattr(chat_wallpaper, "is_same", None),
-            is_both=getattr(chat_wallpaper, "is_both", None)
+            is_both=getattr(chat_wallpaper, "is_both", None),
         )

@@ -31,7 +31,4 @@ from .user_and_chats import *
 from .payments import *
 from .pyromod import *
 
-__all__ = [
-    "List",
-    "Object"
-]
+__all__ = ["List", "Object"]

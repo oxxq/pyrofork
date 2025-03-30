@@ -23,10 +23,7 @@ from pyrogram import raw, types
 
 
 class GetUpgradedGift:
-    async def get_upgraded_gift(
-        self: "pyrogram.Client",
-        link: str
-    ):
+    async def get_upgraded_gift(self: "pyrogram.Client", link: str):
         """Get information about upgraded gift.
 
         .. include:: /_includes/usable-by/users.rst
@@ -47,7 +44,10 @@ class GetUpgradedGift:
                 # Get information about upgraded gift by slug
                 gift = await client.get_upgraded_gift("SignetRing-903")
         """
-        match = re.match(r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/(?:nft/|\+))([\w-]+)$", link)
+        match = re.match(
+            r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/(?:nft/|\+))([\w-]+)$",
+            link,
+        )
 
         if match:
             slug = match.group(1)
@@ -57,9 +57,7 @@ class GetUpgradedGift:
             raise ValueError("Invalid gift link")
 
         r = await self.invoke(
-            raw.functions.payments.GetUniqueStarGift(
-                slug=slug.replace(" ", "")
-            )
+            raw.functions.payments.GetUniqueStarGift(slug=slug.replace(" ", ""))
         )
 
         users = {i.id: i for i in r.users}

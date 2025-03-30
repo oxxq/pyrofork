@@ -40,8 +40,8 @@ class SendGame:
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
             "types.ReplyKeyboardRemove",
-            "types.ForceReply"
-        ] = None
+            "types.ForceReply",
+        ] = None,
     ) -> "types.Message":
         """Send a game.
 
@@ -97,15 +97,14 @@ class SendGame:
             client=self,
             chat_id=chat_id,
             reply_to_message_id=reply_to_message_id,
-            message_thread_id=message_thread_id
+            message_thread_id=message_thread_id,
         )
 
         rpc = raw.functions.messages.SendMedia(
             peer=await self.resolve_peer(chat_id),
             media=raw.types.InputMediaGame(
                 id=raw.types.InputGameShortName(
-                    bot_id=raw.types.InputUserSelf(),
-                    short_name=game_short_name
+                    bot_id=raw.types.InputUserSelf(), short_name=game_short_name
                 ),
             ),
             message="",
@@ -115,13 +114,12 @@ class SendGame:
             noforwards=protect_content,
             allow_paid_floodskip=allow_paid_broadcast,
             effect=message_effect_id,
-            reply_markup=await reply_markup.write(self) if reply_markup else None
+            reply_markup=await reply_markup.write(self) if reply_markup else None,
         )
         if business_connection_id is not None:
             r = await self.invoke(
                 raw.functions.InvokeWithBusinessConnection(
-                    connection_id=business_connection_id,
-                    query=rpc
+                    connection_id=business_connection_id, query=rpc
                 )
             )
         else:
@@ -133,12 +131,13 @@ class SendGame:
                 (
                     raw.types.UpdateNewMessage,
                     raw.types.UpdateNewChannelMessage,
-                    raw.types.UpdateBotNewBusinessMessage
-                )
+                    raw.types.UpdateBotNewBusinessMessage,
+                ),
             ):
                 return await types.Message._parse(
-                    self, i.message,
+                    self,
+                    i.message,
                     {i.id: i for i in r.users},
                     {i.id: i for i in r.chats},
-                    business_connection_id=business_connection_id
+                    business_connection_id=business_connection_id,
                 )

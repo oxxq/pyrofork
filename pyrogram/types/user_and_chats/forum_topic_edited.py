@@ -33,7 +33,7 @@ class ForumTopicEdited(Object):
 
         custom_emoji_id (``str``, *optional*):
             Unique identifier of the custom emoji shown as the topic icon.
-            
+
         is_closed (``bool``, *optional*):
             True, if the topic is closed.
 
@@ -43,12 +43,13 @@ class ForumTopicEdited(Object):
     """
 
     def __init__(
-        self, *,
+        self,
+        *,
         title: str = None,
         icon_color: int = None,
         custom_emoji_id: int = None,
         is_closed: bool = None,
-        is_hidden: bool = None
+        is_hidden: bool = None,
     ):
         super().__init__()
 
@@ -61,11 +62,10 @@ class ForumTopicEdited(Object):
     @staticmethod
     def _parse(action: "raw.types.MessageActionTopicEdit") -> "ForumTopicEdited":
 
-
         return ForumTopicEdited(
-            title=getattr(action,"title", None),
-            icon_color=getattr(action,"icon_color", None),
-custom_emoji_id=getattr(action, "icon_emoji_id", None),
+            title=getattr(action, "title", None),
+            icon_color=getattr(action, "icon_color", None),
+            custom_emoji_id=getattr(action, "icon_emoji_id", None),
             is_closed=getattr(action, "closed", None),
-            is_hidden=getattr(action, "hidden", None)
+            is_hidden=getattr(action, "hidden", None),
         )

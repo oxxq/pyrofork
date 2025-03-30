@@ -20,6 +20,7 @@ from ..object import Object
 from pyrogram import raw, types
 from typing import Union, List
 
+
 class RequestedChats(Object):
     """Contains information about requested chats.
 
@@ -33,11 +34,12 @@ class RequestedChats(Object):
         users (List of :obj:`~pyrogram.types.RequestedUser` *optional*):
             List of users.
     """
+
     def __init__(
         self,
         button_id: int,
         chats: List["types.RequestedChat"] = None,
-        users: List["types.RequestedUser"] = None
+        users: List["types.RequestedUser"] = None,
     ):
         super().__init__()
 
@@ -50,8 +52,8 @@ class RequestedChats(Object):
         client,
         request: Union[
             "raw.types.MessageActionRequestedPeer",
-            "raw.types.MessageActionRequestedPeerSentMe"
-        ]
+            "raw.types.MessageActionRequestedPeerSentMe",
+        ],
     ) -> "RequestedChats":
         button_id = request.button_id
         chats = []
@@ -64,14 +66,13 @@ class RequestedChats(Object):
                 or isinstance(chat, raw.types.PeerChannel)
             ):
                 chats.append(await types.RequestedChat._parse(client, chat))
-            elif (
-                isinstance(chat, raw.types.RequestedPeerUser)
-                or isinstance(chat, raw.types.PeerUser)
+            elif isinstance(chat, raw.types.RequestedPeerUser) or isinstance(
+                chat, raw.types.PeerUser
             ):
                 users.append(await types.RequestedUser._parse(client, chat))
 
         return RequestedChats(
             button_id,
             chats if len(chats) > 0 else None,
-            users if len(users) > 0 else None
+            users if len(users) > 0 else None,
         )

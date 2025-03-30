@@ -27,7 +27,7 @@ class BotInfo(Object):
     Parameters:
         name (``str``):
             The bot name.
-        
+
         about (``str``):
             The bot bio.
 
@@ -38,7 +38,9 @@ class BotInfo(Object):
             Privacy policy URL of the bot.
     """
 
-    def __init__(self, name: str, about: str, description: str, privacy_policy_url: str = None):
+    def __init__(
+        self, name: str, about: str, description: str, privacy_policy_url: str = None
+    ):
         super().__init__()
 
         self.name = name
@@ -46,12 +48,11 @@ class BotInfo(Object):
         self.description = description
         self.privacy_policy_url = privacy_policy_url
 
-    
     @staticmethod
     def _parse(bot_info: "raw.types.bots.BotInfo") -> "BotInfo":
         return BotInfo(
-            name=getattr(bot_info,"name", None),
-            about=getattr(bot_info,"about", None),
-            description=getattr(bot_info,"description", None),
-            privacy_policy_url=getattr(bot_info,"privacy_policy_url", None)
+            name=getattr(bot_info, "name", None),
+            about=getattr(bot_info, "about", None),
+            description=getattr(bot_info, "description", None),
+            privacy_policy_url=getattr(bot_info, "privacy_policy_url", None),
         )

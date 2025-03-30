@@ -19,6 +19,4 @@
 
 from .pagination import Pagination
 
-__all__ = [
-    "Pagination"
-]
+__all__ = ["Pagination"]

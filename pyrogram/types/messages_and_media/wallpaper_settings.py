@@ -19,6 +19,7 @@
 from ..object import Object
 from pyrogram import raw
 
+
 class WallpaperSettings(Object):
     """A wallpaper settings.
 
@@ -61,7 +62,7 @@ class WallpaperSettings(Object):
         fourth_background_color: int = None,
         intensity: int = None,
         rotation: int = None,
-        emoticon: str = None
+        emoticon: str = None,
     ):
         super().__init__()
         self.is_blur = is_blur
@@ -75,7 +76,9 @@ class WallpaperSettings(Object):
         self.emoticon = emoticon
 
     @staticmethod
-    def _parse(wallpaper_settings: "raw.types.WallPaperSettings") -> "WallpaperSettings":
+    def _parse(
+        wallpaper_settings: "raw.types.WallPaperSettings",
+    ) -> "WallpaperSettings":
         if wallpaper_settings is None:
             return None
 
@@ -83,10 +86,16 @@ class WallpaperSettings(Object):
             is_blur=getattr(wallpaper_settings, "blur", None),
             is_motion=getattr(wallpaper_settings, "motion", None),
             background_color=getattr(wallpaper_settings, "background_color", None),
-            second_background_color=getattr(wallpaper_settings, "second_background_color", None),
-            third_background_color=getattr(wallpaper_settings, "third_background_color", None),
-            fourth_background_color=getattr(wallpaper_settings, "fourth_background_color", None),
+            second_background_color=getattr(
+                wallpaper_settings, "second_background_color", None
+            ),
+            third_background_color=getattr(
+                wallpaper_settings, "third_background_color", None
+            ),
+            fourth_background_color=getattr(
+                wallpaper_settings, "fourth_background_color", None
+            ),
             intensity=getattr(wallpaper_settings, "intensity", None),
             rotation=getattr(wallpaper_settings, "rotation", None),
-            emoticon=getattr(wallpaper_settings, "emoticon", None)
+            emoticon=getattr(wallpaper_settings, "emoticon", None),
         )

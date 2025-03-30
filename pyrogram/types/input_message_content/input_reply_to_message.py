@@ -47,12 +47,12 @@ class InputReplyToMessage(Object):
     """
 
     def __init__(
-        self, *,
+        self,
+        *,
         reply_to_message_id: int = None,
         message_thread_id: int = None,
         reply_to_chat: Union[
-            "raw.types.InputPeerChannel",
-            "raw.types.InputPeerUser"
+            "raw.types.InputPeerChannel", "raw.types.InputPeerUser"
         ] = None,
         quote_text: str = None,
         quote_entities: List["raw.base.MessageEntity"] = None,

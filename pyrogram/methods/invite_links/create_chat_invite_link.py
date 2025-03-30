@@ -34,7 +34,7 @@ class CreateChatInviteLink:
         member_limit: int = None,
         creates_join_request: bool = None,
         subscription_period: int = None,
-        subscription_price: int = None
+        subscription_price: int = None,
     ) -> "types.ChatInviteLink":
         """Create an additional invite link for a chat.
 
@@ -95,10 +95,13 @@ class CreateChatInviteLink:
                 usage_limit=member_limit,
                 title=name,
                 request_needed=creates_join_request,
-                subscription_pricing=raw.types.StarsSubscriptionPricing(
-                    period=subscription_period,
-                    amount=subscription_price
-                ) if subscription_period and subscription_price is not None else None
+                subscription_pricing=(
+                    raw.types.StarsSubscriptionPricing(
+                        period=subscription_period, amount=subscription_price
+                    )
+                    if subscription_period and subscription_price is not None
+                    else None
+                ),
             )
         )
 

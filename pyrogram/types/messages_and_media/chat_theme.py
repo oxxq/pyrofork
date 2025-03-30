@@ -19,6 +19,7 @@
 from ..object import Object
 from pyrogram import raw
 
+
 class ChatTheme(Object):
     """A service message about a chat theme.
 
@@ -33,6 +34,4 @@ class ChatTheme(Object):
 
     @staticmethod
     def _parse(chat_theme: "raw.types.MessageActionSetChatTheme") -> "ChatTheme":
-        return ChatTheme(
-            emoticon=getattr(chat_theme, "emoticon", None)
-        )
+        return ChatTheme(emoticon=getattr(chat_theme, "emoticon", None))

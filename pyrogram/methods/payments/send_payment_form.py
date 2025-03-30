@@ -26,10 +26,11 @@ from pyrogram import raw, types
 
 class SendPaymentForm:
     async def send_payment_form(
-        self: "pyrogram.Client", *,
+        self: "pyrogram.Client",
+        *,
         chat_id: Union[int, str] = None,
         message_id: int = None,
-        invoice_link: str = None
+        invoice_link: str = None,
     ) -> List[Union["types.Photo", "types.Video"]]:
         """Pay an invoice.
 
@@ -70,29 +71,28 @@ class SendPaymentForm:
 
         if message_id:
             invoice = raw.types.InputInvoiceMessage(
-                peer=await self.resolve_peer(chat_id),
-                msg_id=message_id
+                peer=await self.resolve_peer(chat_id), msg_id=message_id
             )
         elif invoice_link:
-            match = re.match(r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/\$)([\w-]+)$", invoice_link)
+            match = re.match(
+                r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/\$)([\w-]+)$",
+                invoice_link,
+            )
 
             if match:
                 slug = match.group(1)
             else:
                 slug = invoice_link
 
-            invoice = raw.types.InputInvoiceSlug(
-                slug=slug
-            )
+            invoice = raw.types.InputInvoiceSlug(slug=slug)
 
-        form = await self.get_payment_form(chat_id=chat_id, message_id=message_id, invoice_link=invoice_link)
+        form = await self.get_payment_form(
+            chat_id=chat_id, message_id=message_id, invoice_link=invoice_link
+        )
 
         # if form.invoice.currency == "XTR":
         r = await self.invoke(
-            raw.functions.payments.SendStarsForm(
-                form_id=form.id,
-                invoice=invoice
-            )
+            raw.functions.payments.SendStarsForm(form_id=form.id, invoice=invoice)
         )
         # TODO: Add support for regular invoices (credentials)
         # else:
@@ -122,12 +122,20 @@ class SendPaymentForm:
                             file_name = getattr(
                                 attributes.get(
                                     raw.types.DocumentAttributeFilename, None
-                                ), "file_name", None
+                                ),
+                                "file_name",
+                                None,
                             )
 
-                            video_attributes = attributes[raw.types.DocumentAttributeVideo]
+                            video_attributes = attributes[
+                                raw.types.DocumentAttributeVideo
+                            ]
 
-                            medias.append(types.Video._parse(self, doc, video_attributes, file_name))
+                            medias.append(
+                                types.Video._parse(
+                                    self, doc, video_attributes, file_name
+                                )
+                            )
 
                     return types.List(medias)
         # elif isinstance(r, raw.types.payments.PaymentVerificationNeeded):

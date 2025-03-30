@@ -26,10 +26,11 @@ from pyrogram import raw, types
 
 class GetPaymentForm:
     async def get_payment_form(
-        self: "pyrogram.Client", *,
+        self: "pyrogram.Client",
+        *,
         chat_id: Union[int, str] = None,
         message_id: int = None,
-        invoice_link: str = None
+        invoice_link: str = None,
     ) -> "types.PaymentForm":
         """Get information about a invoice or paid media.
 
@@ -65,25 +66,21 @@ class GetPaymentForm:
 
         if message_id:
             invoice = raw.types.InputInvoiceMessage(
-                peer=await self.resolve_peer(chat_id),
-                msg_id=message_id
+                peer=await self.resolve_peer(chat_id), msg_id=message_id
             )
         elif invoice_link:
-            match = re.match(r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/\$)([\w-]+)$", invoice_link)
+            match = re.match(
+                r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/\$)([\w-]+)$",
+                invoice_link,
+            )
 
             if match:
                 slug = match.group(1)
             else:
                 slug = invoice_link
 
-            invoice = raw.types.InputInvoiceSlug(
-                slug=slug
-            )
+            invoice = raw.types.InputInvoiceSlug(slug=slug)
 
-        r = await self.invoke(
-            raw.functions.payments.GetPaymentForm(
-                invoice=invoice
-            )
-        )
+        r = await self.invoke(raw.functions.payments.GetPaymentForm(invoice=invoice))
 
         return types.PaymentForm._parse(self, r)

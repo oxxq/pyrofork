@@ -51,7 +51,7 @@ class MessageReactionCountUpdated(Object, Update):
         chat: "types.Chat",
         message_id: int,
         date: datetime,
-        reactions: List["types.Reaction"]
+        reactions: List["types.Reaction"],
     ):
         super().__init__(client)
 
@@ -65,7 +65,7 @@ class MessageReactionCountUpdated(Object, Update):
         client: "pyrogram.Client",
         update: "raw.types.UpdateBotMessageReactions",
         users: Dict[int, "raw.types.User"],
-        chats: Dict[int, "raw.types.Chat"]
+        chats: Dict[int, "raw.types.Chat"],
     ) -> "MessageReactionCountUpdated":
         chat = None
         peer_id = utils.get_peer_id(update.peer)
@@ -81,9 +81,6 @@ class MessageReactionCountUpdated(Object, Update):
             message_id=update.msg_id,
             date=utils.timestamp_to_datetime(update.date),
             reactions=[
-                types.Reaction._parse_count(
-                    client,
-                    rt
-                ) for rt in update.reactions
-            ]
+                types.Reaction._parse_count(client, rt) for rt in update.reactions
+            ],
         )

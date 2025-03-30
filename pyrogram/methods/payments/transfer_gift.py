@@ -58,30 +58,22 @@ class TransferGift:
         try:
             await self.invoke(
                 raw.functions.payments.TransferStarGift(
-                    stargift=raw.types.InputSavedStarGiftUser(
-                        msg_id=message_id
-                    ),
-                    to_id=peer
+                    stargift=raw.types.InputSavedStarGiftUser(msg_id=message_id),
+                    to_id=peer,
                 )
             )
         except errors.PaymentRequired:
             invoice = raw.types.InputInvoiceStarGiftTransfer(
-                stargift=raw.types.InputSavedStarGiftUser(
-                    msg_id=message_id
-                ),
-                to_id=peer
+                stargift=raw.types.InputSavedStarGiftUser(msg_id=message_id), to_id=peer
             )
 
             form = await self.invoke(
-                raw.functions.payments.GetPaymentForm(
-                    invoice=invoice
-                )
+                raw.functions.payments.GetPaymentForm(invoice=invoice)
             )
 
             await self.invoke(
                 raw.functions.payments.SendStarsForm(
-                    form_id=form.form_id,
-                    invoice=invoice
+                    form_id=form.form_id, invoice=invoice
                 )
             )
 

@@ -26,8 +26,7 @@ from pyrogram import types
 
 class ExportChatInviteLink:
     async def export_chat_invite_link(
-        self: "pyrogram.Client",
-        chat_id: Union[int, str]
+        self: "pyrogram.Client", chat_id: Union[int, str]
     ) -> "types.ChatInviteLink":
         """Generate a new primary invite link for a chat; any previously generated primary link is revoked.
 
@@ -59,8 +58,7 @@ class ExportChatInviteLink:
         """
         r = await self.invoke(
             raw.functions.messages.ExportChatInvite(
-                peer=await self.resolve_peer(chat_id),
-                legacy_revoke_permanent=True
+                peer=await self.resolve_peer(chat_id), legacy_revoke_permanent=True
             )
         )
 

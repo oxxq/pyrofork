@@ -25,8 +25,7 @@ from pyrogram import raw, types
 
 class SetEmojiStatus:
     async def set_emoji_status(
-        self: "pyrogram.Client",
-        emoji_status: Optional["types.EmojiStatus"] = None
+        self: "pyrogram.Client", emoji_status: Optional["types.EmojiStatus"] = None
     ) -> bool:
         """Set the emoji status.
 
@@ -43,10 +42,10 @@ class SetEmojiStatus:
             .. code-block:: python
 
                 from pyrogram import types
-                
+
                 # Set emoji status
                 await app.set_emoji_status(types.EmojiStatus(custom_emoji_id=1234567890987654321))
-                
+
                 # Set collectible emoji status
                 await app.set_emoji_status(types.EmojiStatus(collectible_id=1234567890987654321))
         """

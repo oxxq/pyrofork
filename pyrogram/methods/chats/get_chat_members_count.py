@@ -25,9 +25,7 @@ from pyrogram import raw
 
 class GetChatMembersCount:
     async def get_chat_members_count(
-        self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        join_request: bool = False
+        self: "pyrogram.Client", chat_id: Union[int, str], join_request: bool = False
     ) -> int:
         """Get the number of members in a chat.
 
@@ -56,20 +54,12 @@ class GetChatMembersCount:
         peer = await self.resolve_peer(chat_id)
 
         if isinstance(peer, raw.types.InputPeerChat):
-            r = await self.invoke(
-                raw.functions.messages.GetChats(
-                    id=[peer.chat_id]
-                )
-            )
+            r = await self.invoke(raw.functions.messages.GetChats(id=[peer.chat_id]))
             if not join_request:
                 return r.chats[0].participants_count
             return r.chats[0].requests_pending
         elif isinstance(peer, raw.types.InputPeerChannel):
-            r = await self.invoke(
-                raw.functions.channels.GetFullChannel(
-                    channel=peer
-                )
-            )
+            r = await self.invoke(raw.functions.channels.GetFullChannel(channel=peer))
 
             if not join_request:
                 return r.full_chat.participants_count
